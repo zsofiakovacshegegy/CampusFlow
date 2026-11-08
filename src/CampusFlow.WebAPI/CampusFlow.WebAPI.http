@@ -1,0 +1,57 @@
+@"CampusFlow.WebAPI_HostAddress" = http://localhost:5276
+
+GET {{"CampusFlow.WebAPI_HostAddress"}}/weatherforecast/
+Accept: application/json
+
+### Search courses
+GET {{"CampusFlow.WebAPI_HostAddress"}}/api/courses
+
+### Filter courses by credits
+GET {{"CampusFlow.WebAPI_HostAddress"}}/api/courses?minCredits=6
+
+### Get statistics
+GET {{"CampusFlow.WebAPI_HostAddress"}}/api/statistics
+
+###
+
+### Enroll Ada in DB201 (expect 201)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 1 }
+
+### Enroll Ada in DB201 again (expect 409: already enrolled)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 1 }
+
+### Enroll Alan in DB201 (expect 201)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 2 }
+
+### Enroll Grace in DB201 (expect 409: course full)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 3 }
+
+### Enroll an unknown student (expect 404)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 99 }
+
+### List the enrollments of DB201
+GET {{"CampusFlow.WebAPI_HostAddress}}/api/courses/2/enrollments
+
+### Remove Alan from DB201 (expect 204)
+DELETE {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments/2
+
+### Enroll Grace in DB201 (expect 201: a place is free)
+POST {{"CampusFlow.WebAPI_HostAddress"}}/api/courses/2/enrollments
+Content-Type: application/json
+
+{ "studentId": 3 }
